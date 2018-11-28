@@ -5,7 +5,7 @@ $age = $_GET['age'];
 $print_help = 0;
 
 include "connect.php";
-$sql = "SELECT score, result FROM autism_test WHERE name='$username' AND age='$age'";
+$sql = "SELECT gender, prevautism, score, result FROM autism_test WHERE name='$username' AND age='$age'";
 $retval = mysqli_query($conn, $sql);
 
 if(! $retval ) {
@@ -16,15 +16,58 @@ while($row = mysqli_fetch_assoc($retval))
 {
 	$totalscore = $row['score'];
 	$result = $row['result'];
+	$gender = $row['gender'];
+	$prevautism = $row['prevautism'];
 }
 
 mysqli_close($conn);
 
-$fp = fopen('demofile.txt', 'w');
-fwrite($fp, $age."\r\n");
-fwrite($fp, $totalscore."\r\n");
-fwrite($fp, $result);
-fclose($fp);
+$fage = fopen('demoage.txt', 'a');
+fwrite($fage, $age."\r\n");
+fclose($fage);
+
+$fscore = fopen('demoscore.txt', 'a');
+fwrite($fscore, $totalscore."\r\n");
+fclose($fscore);
+
+$fgen = fopen('demogen.txt', 'a');
+if($gender == 'f')
+{
+	$gen = 0;
+	
+}
+else
+{
+	$gen = 1;	
+}
+fwrite($fgen, $gen."\r\n");
+fclose($fgen);
+
+$fpre = fopen('demopre.txt', 'a');
+if($prevautism == 'no')
+{
+	$prev = 0;
+}
+else
+{
+	$prev = 1;	
+}
+fwrite($fpre, $prev."\r\n");
+fclose($fpre);
+
+$fres = fopen('demores.txt', 'a');
+if($result == 'No Autism')
+{
+	$res = 0;
+}
+else
+{
+	$res = 1;	
+}
+fwrite($fres, $res."\r\n");
+fclose($fres);
+
+
 
 if($age >= 0 && $age <= 3)
 {
@@ -68,7 +111,8 @@ else if($age >= 12)
 {
 
 	//EXEC PY SCRIPT
-	//exec("python naivebayesdata.py");passing values to python error
+	exec("python naivebayesdata.py");
+	
 	//AUTISM SCORE
 	$maxscore = 10;
 	$pscore = ($totalscore/$maxscore)*100;

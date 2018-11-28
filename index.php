@@ -5,9 +5,11 @@ if(!empty($_POST["details_user"]))
 
 	$username = $_POST['username'];
 	$age = $_POST['age'];
+	$gen = $_POST['gender'];
+	$prevautism = $_POST['prevautism'];
 
 	include "connect.php";
-   	$sql = "INSERT INTO autism_test ". "(name,age) ". "VALUES('$username','$age')";
+   	$sql = "INSERT INTO autism_test ". "(name,age,gender,prevautism) ". "VALUES('$username','$age','$gen','$prevautism')";
    	$retval = mysqli_query($conn, $sql);
 
    	if(! $retval ) {
@@ -78,6 +80,22 @@ if(!empty($_POST["details_user"]))
 						<ul class="actions">
 							<li><input type="text" name="username" id="username" value="" placeholder="User Name" required /></li>
 							<li><input type="text" name="age" id="age" pattern="^([0-9]|[1-9][0-9]|100)$" title="Age from 0 to 100" value="" placeholder="Age (Put 0 if less than 1yr)" required /></li>
+							<li><div class="4u 12u$(small)">
+												<input type="radio" id="male" value="m" name="gender" checked>
+												<label for="male">Male</label>
+											</div>
+											<div class="4u 12u$(small)">
+												<input type="radio" id="female" value="f" name="gender">
+												<label for="female">Female</label>
+											</div></li>
+							<li><div class="12u 12u$(small)">
+												<input type="radio" id="prevautismy" value="yes" name="prevautism" checked>
+												<label for="prevautismy">Family Member has Autism</label>
+											</div>
+											<div class="12u 12u$(small)">
+												<input type="radio" id="prevautismn" value="no" name="prevautism">
+												<label for="prevautismn">Family Member does NOT have Autism</label>
+											</div></li>
 							<li><input type="submit" name="details_user" value="Take Test" /></li>
 							<li><a href="#disclaimer">DISCLAIMER</a></li>
 						</ul>

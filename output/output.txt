@@ -1,0 +1,5 @@
+Age: 34
+Score: 7
+Gender: m
+Family Autism: yes
+Class: YES autism
